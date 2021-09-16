@@ -9,7 +9,7 @@ class App extends Component {
     };
 
     this.handleInput = this.handleInput.bind(this);
-    this.handleCheckBox = this.handleCheckBox.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
   }
   handleInput(e) {
@@ -18,46 +18,40 @@ class App extends Component {
         return {
           todoInputs: [
             ...prevState.todoInputs,
-            {id:prevState.todoInputs.length.toString(), task: e.target.value, isComplete: false},
+            {id:prevState.todoInputs.length, task: e.target.value, isComplete: false},
           ],
         };
       });
     }
   }
 
-  handleCheckBox(id){
-    this.setState((prevState) => {
-        const updatedToDos = prevState.todoInputs.map(todo => {
-          if(todo.id === id){
-            todo.isComplete = !todo.isComplete
-          }else{
-            return todo
-          }
-        })
-        console.log("updatedToDos:", updatedToDos)
-        return {
-          todoInputs: updatedToDos
-        }
-    })
+  handleChange = id => {
+    const updatedTodos = this.state.todoInputs.map(todo => { 
+      if (todo.id === id) {
+        todo.isComplete = !todo.isComplete;
+      }
+      return todo;
+    });
+    this.setState({todos:updatedTodos})
+};
 
     
-  }
 
   render() {
-    console.log(this.state)
-    const toDoList = this.state.todoInputs.map(todo =>
+    const toDoList = this.state.todoInputs.map((todo) =>
       <ToDoItem
         task={todo.task}
+        key={todo.id}
         id={todo.id}
         isComplete={todo.isComplete}
-        handleCheckBox ={this.handleCheckBox}
+        handleChange ={this.handleChange}
       />
     );
 
     return (
       <div>
         <label htmlFor="todo">To do:</label>
-        <input type="text" onKeyDown={this.handleInput} />
+        <input type="text" name="todoInputs" onKeyDown={this.handleInput} />
         {toDoList}
       </div>
     );

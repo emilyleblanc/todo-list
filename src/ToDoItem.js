@@ -11,7 +11,7 @@ class ToDoItem extends Component {
         <input
           type="checkbox"
           checked={this.props.isComplete}
-          onChange={() => this.props.handleCheckBox(this.props.id)}
+          onChange={() => this.props.handleChange(this.props.id)}
         />
         <p style={this.props.isComplete ? completedStyles : null}>{this.props.task}</p>
       </div>
